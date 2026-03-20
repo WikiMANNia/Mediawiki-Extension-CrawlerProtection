@@ -34,3 +34,7 @@ intensive.
 1.2.0 (Aug 13, 2025)
 
 * Fix 403 handling and add login links to prevent nginx 404 fallthrough
+
+1.3.0 (Oct 11, 2025)
+
+* Add oldid parameter blocking to special pages and comprehensive tests

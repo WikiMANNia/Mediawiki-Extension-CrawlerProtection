@@ -30,6 +30,9 @@ class HooksTest extends TestCase {
 	/** @var string */
 	private static string $specialPageClassName;
 
+	/** @var string */
+	private static string $contextClassName;
+
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
@@ -60,6 +63,10 @@ class HooksTest extends TestCase {
 		self::$webRequestClassName = class_exists( '\MediaWiki\Request\WebRequest' )
 			? '\MediaWiki\Request\WebRequest'
 			: '\WebRequest';
+
+		self::$contextClassName = class_exists( '\MediaWiki\Context\RequestContext' )
+			? '\MediaWiki\Context\RequestContext'
+			: '\RequestContext';
 	}
 
 	/**
@@ -367,5 +374,151 @@ class HooksTest extends TestCase {
 			// Test mixed case
 			'MobileDiff mixed case' => [ 'MoBiLeDiFf' ],
 		];
+	}
+
+	/**
+	 * @covers ::onMediaWikiPerformAction
+	 */
+	public function testOldIdBlocksAnonymous() {
+		$output = $this->createMock( self::$outputPageClassName );
+
+		$request = $this->createMock( self::$webRequestClassName );
+		$request->method( 'getVal' )->willReturnMap( [
+			[ 'oldid', null, '1234' ],
+		] );
+
+		$user = $this->createMock( self::$userClassName );
+		$user->method( 'isRegistered' )->willReturn( false );
+
+		$article = $this->createMock( self::$articleClassName );
+		$title = $this->createMock( self::$titleClassName );
+		$wiki = $this->createMock( self::$actionEntryPointClassName );
+
+		$runner = $this->getMockBuilder( Hooks::class )
+			->onlyMethods( [ 'denyAccess' ] )
+			->getMock();
+		$runner->expects( $this->once() )->method( 'denyAccess' );
+
+		$result = $runner->onMediaWikiPerformAction( $output, $article, $title, $user, $request, $wiki );
+		$this->assertFalse( $result );
+	}
+
+	/**
+	 * @covers ::onMediaWikiPerformAction
+	 */
+	public function testOldIdAllowsLoggedIn() {
+		$output = $this->createMock( self::$outputPageClassName );
+
+		$request = $this->createMock( self::$webRequestClassName );
+		$request->method( 'getVal' )->willReturnMap( [
+			[ 'oldid', null, '1234' ],
+		] );
+
+		$user = $this->createMock( self::$userClassName );
+		$user->method( 'isRegistered' )->willReturn( true );
+
+		$article = $this->createMock( self::$articleClassName );
+		$title = $this->createMock( self::$titleClassName );
+		$wiki = $this->createMock( self::$actionEntryPointClassName );
+
+		$runner = $this->getMockBuilder( Hooks::class )
+			->onlyMethods( [ 'denyAccess' ] )
+			->getMock();
+		$runner->expects( $this->never() )->method( 'denyAccess' );
+
+		$result = $runner->onMediaWikiPerformAction( $output, $article, $title, $user, $request, $wiki );
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::onSpecialPageBeforeExecute
+	 */
+	public function testSpecialPageWithOldIdBlocksAnonymous() {
+		$output = $this->createMock( self::$outputPageClassName );
+
+		$request = $this->createMock( self::$webRequestClassName );
+		$request->method( 'getVal' )->willReturnMap( [
+			[ 'oldid', null, '4463' ],
+		] );
+
+		$user = $this->createMock( self::$userClassName );
+		$user->method( 'isRegistered' )->willReturn( false );
+
+		$context = $this->createMock( self::$contextClassName );
+		$context->method( 'getUser' )->willReturn( $user );
+		$context->method( 'getOutput' )->willReturn( $output );
+		$context->method( 'getRequest' )->willReturn( $request );
+
+		$special = $this->createMock( self::$specialPageClassName );
+		$special->method( 'getContext' )->willReturn( $context );
+		$special->method( 'getName' )->willReturn( 'Login' );
+
+		$runner = $this->getMockBuilder( Hooks::class )
+			->onlyMethods( [ 'denyAccess' ] )
+			->getMock();
+		$runner->expects( $this->once() )->method( 'denyAccess' );
+
+		$result = $runner->onSpecialPageBeforeExecute( $special, null );
+		$this->assertFalse( $result );
+	}
+
+	/**
+	 * @covers ::onSpecialPageBeforeExecute
+	 */
+	public function testSpecialPageWithOldIdAllowsLoggedIn() {
+		$output = $this->createMock( self::$outputPageClassName );
+
+		$request = $this->createMock( self::$webRequestClassName );
+		$request->method( 'getVal' )->willReturnMap( [
+			[ 'oldid', null, '4463' ],
+		] );
+
+		$user = $this->createMock( self::$userClassName );
+		$user->method( 'isRegistered' )->willReturn( true );
+
+		$context = $this->createMock( self::$contextClassName );
+		$context->method( 'getUser' )->willReturn( $user );
+		$context->method( 'getRequest' )->willReturn( $request );
+
+		$special = $this->createMock( self::$specialPageClassName );
+		$special->method( 'getContext' )->willReturn( $context );
+		$special->method( 'getName' )->willReturn( 'Login' );
+
+		$runner = $this->getMockBuilder( Hooks::class )
+			->onlyMethods( [ 'denyAccess' ] )
+			->getMock();
+		$runner->expects( $this->never() )->method( 'denyAccess' );
+
+		$result = $runner->onSpecialPageBeforeExecute( $special, null );
+		$this->assertTrue( $result );
+	}
+
+	/**
+	 * @covers ::onSpecialPageBeforeExecute
+	 */
+	public function testSpecialPageWithoutOldIdAllowsAnonymous() {
+		$request = $this->createMock( self::$webRequestClassName );
+		$request->method( 'getVal' )->willReturnMap( [
+			[ 'oldid', null, null ],
+		] );
+
+		$user = $this->createMock( self::$userClassName );
+		$user->method( 'isRegistered' )->willReturn( false );
+
+		$context = $this->createMock( self::$contextClassName );
+		$context->method( 'getUser' )->willReturn( $user );
+		$context->method( 'getRequest' )->willReturn( $request );
+
+		$special = $this->createMock( self::$specialPageClassName );
+		$special->method( 'getContext' )->willReturn( $context );
+		$special->method( 'getName' )->willReturn( 'Login' );
+
+		$runner = $this->getMockBuilder( Hooks::class )
+			->onlyMethods( [ 'denyAccess' ] )
+			->getMock();
+		$runner->expects( $this->never() )->method( 'denyAccess' );
+
+		$result = $runner->onSpecialPageBeforeExecute( $special, null );
+		$this->assertTrue( $result );
 	}
 }
