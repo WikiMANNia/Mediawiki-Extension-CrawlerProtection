@@ -1,43 +1,43 @@
 {
-    "name": "CrawlerProtection",
-    "author": "MyWikis LLC",
-    "version": "1.1.0",
-    "description": "Suite of protective measures to protect wikis from crawlers.",
-    "type": "hook",
-    "requires": {
-        "MediaWiki": ">= 1.35"
-    },
-    "AutoloadNamespaces": {
-        "MediaWiki\\Extension\\CrawlerProtection\\": "includes/"
-    },
-    "HookHandlers": {
-        "main": {
-            "class": "MediaWiki\\Extension\\CrawlerProtection\\Hooks",
-            "services": []
-        }
-    },
-    "Hooks": {
-        "MediaWikiPerformAction": "main",
-        "SpecialPageBeforeExecute": "main"
-    },
-    "config": {
-        "CrawlerProtectedSpecialPages": {
-            "value": [
-                "mobilediff",
-                "recentchangeslinked",
-                "whatlinkshere"
-            ]
-        },
-        "CrawlerProtectionUse418": {
-            "value": false
-        }
-    },
-    "license-name": "MIT",
-    "Tests": {
-        "phpunit": "tests/phpunit"
-    },
-    "MessagesDirs": {
-        "CrawlerProtection": "i18n"
-    },
-    "manifest_version": 2
+	"name": "CrawlerProtection",
+	"author": "MyWikis LLC",
+	"version": "1.1.0",
+	"description": "Suite of protective measures to protect wikis from crawlers.",
+	"type": "hook",
+	"requires": {
+		"MediaWiki": ">= 1.35"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\CrawlerProtection\\": "includes/"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MediaWiki\\Extension\\CrawlerProtection\\Hooks",
+			"services": []
+		}
+	},
+	"Hooks": {
+		"MediaWikiPerformAction": "main",
+		"SpecialPageBeforeExecute": "main"
+	},
+	"config": {
+		"CrawlerProtectedSpecialPages": {
+			"value": [
+				"mobilediff",
+				"recentchangeslinked",
+				"whatlinkshere"
+			]
+		},
+		"CrawlerProtectionUse418": {
+			"value": false
+		}
+	},
+	"license-name": "MIT",
+	"Tests": {
+		"phpunit": "tests/phpunit"
+	},
+	"MessagesDirs": {
+		"CrawlerProtection": "i18n"
+	},
+	"manifest_version": 2
 }

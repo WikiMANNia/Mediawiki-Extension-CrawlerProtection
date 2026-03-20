@@ -20,3 +20,13 @@ intensive.
   [418 I'm a teapot](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/418)
   code (default: `false`)
 
+#  Version history
+
+1.0.0
+
+* MyWikis LLC
+
+1.1.0 (Jun 30, 2025)
+
+* add: ProtectionUse418
+* 1.43 compatibility

@@ -19,9 +19,6 @@ class HooksTest extends TestCase {
 	private static string $outputPageClassName;
 
 	/** @var string */
-	private static string $specialPageClassName;
-
-	/** @var string */
 	private static string $titleClassName;
 
 	/** @var string */
@@ -29,6 +26,9 @@ class HooksTest extends TestCase {
 
 	/** @var string */
 	private static string $webRequestClassName;
+
+	/** @var string */
+	private static string $specialPageClassName;
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -69,7 +69,7 @@ class HooksTest extends TestCase {
 	 */
 	protected function tearDown(): void {
 		parent::tearDown();
-		// Reset the test config flag (only exists in stub environment)
+		// Reset the test config flags (only exists in stub environment)
 		if ( property_exists( '\MediaWiki\MediaWikiServices', 'testUse418' ) ) {
 			\MediaWiki\MediaWikiServices::$testUse418 = false;
 		}
