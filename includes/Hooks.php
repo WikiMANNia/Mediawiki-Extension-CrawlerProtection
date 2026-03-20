@@ -70,6 +70,10 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 		$diffId = (int)$request->getVal( 'diff' );
 		$oldId  = (int)$request->getVal( 'oldid' );
 
+		$config = MediaWikiServices::getInstance()->getMainConfig();
+		$protectedActions = $config->get( 'CrawlerProtectedActions' );
+		$denyFast = $config->get( 'CrawlerProtectionUse418' );
+
 		if (
 			!$user->isRegistered()
 			&& (
@@ -79,6 +83,9 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 				|| $oldId > 0
 			)
 		) {
+			if ( $denyFast ) {
+				$this->denyAccessWith418();
+			}
 			$this->denyAccess( $output );
 			return false;
 		}
@@ -114,10 +121,10 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 
 		$name = strtolower( $special->getName() );
 		if ( in_array( $name, $normalizedProtectedPages, true ) ) {
-			$out = $special->getContext()->getOutput();
 			if ( $denyFast ) {
 				$this->denyAccessWith418();
 			}
+			$out = $special->getContext()->getOutput();
 			$this->denyAccess( $out );
 			return false;
 		}
@@ -143,8 +150,8 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 	 * @return void
 	 */
 	protected function denyAccess( $output ): void {
+		$output->clearHTML();
 		$output->setStatusCode( 403 );
-		$output->addWikiTextAsInterface( wfMessage( 'crawlerprotection-accessdenied-text' )->plain() );
 
 		if ( version_compare( MW_VERSION, '1.41', '<' ) ) {
 			$output->setPageTitle( wfMessage( 'crawlerprotection-accessdenied-title' ) );
@@ -152,5 +159,8 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 			// @phan-suppress-next-line PhanUndeclaredMethod Exists in 1.41+
 			$output->setPageTitleMsg( wfMessage( 'crawlerprotection-accessdenied-title' ) );
 		}
+
+		$output->addWikiTextAsInterface( wfMessage( 'crawlerprotection-accessdenied-text' )->plain() );
+		$output->returnToMain();
 	}
 }

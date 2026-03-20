@@ -30,3 +30,7 @@ intensive.
 
 * add: ProtectionUse418
 * 1.43 compatibility
+
+1.2.0 (Aug 13, 2025)
+
+* Fix 403 handling and add login links to prevent nginx 404 fallthrough
