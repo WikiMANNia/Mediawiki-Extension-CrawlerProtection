@@ -44,3 +44,7 @@ intensive.
 1.4.0 (Feb 19, 2026)
 
 * Add configurable action protection with $wgCrawlerProtectedActions
+
+1.5.0 (Mar 4, 2026)
+
+* Add custom header and text settings for access-denial display
