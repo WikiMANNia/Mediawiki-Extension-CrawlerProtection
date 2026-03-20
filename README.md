@@ -19,6 +19,8 @@ intensive.
   `die();` with
   [418 I'm a teapot](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/418)
   code (default: `false`)
+* `$wgCrawlerProtectedActions` - add a list of actions to be denied
+  (default: `[ 'history' ]`).
 
 #  Version history
 
@@ -38,3 +40,7 @@ intensive.
 1.3.0 (Oct 11, 2025)
 
 * Add oldid parameter blocking to special pages and comprehensive tests
+
+1.4.0 (Feb 19, 2026)
+
+* Add configurable action protection with $wgCrawlerProtectedActions
