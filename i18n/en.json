@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [ "MyWikis LLC" ]
 	},
+	"crawlerprotection-desc": "Suite of protective measures to protect wikis from crawlers.",
 	"crawlerprotection-accessdenied-title": "Access denied",
 	"crawlerprotection-accessdenied-text": "You must be logged in to perform this action or view this special page. Please [[Special:UserLogin|log in]] to continue."
 }

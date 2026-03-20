@@ -1,8 +1,9 @@
 {
 	"name": "CrawlerProtection",
 	"author": "MyWikis LLC",
-	"version": "1.5.0",
-	"description": "Suite of protective measures to protect wikis from crawlers.",
+	"url": "https://github.com/WikiMANNia/Mediawiki-Extension-CrawlerProtection",
+	"version": "1.6.0",
+	"descriptionmsg": "crawlerprotection-desc",
 	"type": "hook",
 	"requires": {
 		"MediaWiki": ">= 1.35"

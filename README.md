@@ -48,3 +48,7 @@ intensive.
 1.5.0 (Mar 4, 2026)
 
 * Add custom header and text settings for access-denial display
+
+1.6.0 (Mar 20, 2026)
+
+* Add translations and link to MediaWiki
