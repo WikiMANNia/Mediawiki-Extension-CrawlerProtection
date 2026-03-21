@@ -74,8 +74,8 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 		$protectedActions = $config->get( 'CrawlerProtectedActions' );
 		$customDenialHeader = $config->get( 'CrawlerProtectionDenialHeader' );
 		$customDenialText = $config->get( 'CrawlerProtectionDenialText' );
-		$use418 = $config->get( 'CrawlerProtectionUse418' );
-		if ( empty( $customDenialHeader ) && empty( $customDenialText ) && $use418 ) {
+		$denyFast = $config->get( 'CrawlerProtectionUse418' );
+		if ( empty( $customDenialHeader ) && empty( $customDenialText ) && $denyFast ) {
 			$customDenialHeader = 'HTTP/1.0 I\'m a teapot';
 			$customDenialText = 'I\'m a teapot';
 		}
@@ -118,8 +118,8 @@ class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook 
 		$protectedSpecialPages = $config->get( 'CrawlerProtectedSpecialPages' );
 		$customDenialHeader = $config->get( 'CrawlerProtectionDenialHeader' );
 		$customDenialText = $config->get( 'CrawlerProtectionDenialText' );
-		$use418 = $config->get( 'CrawlerProtectionUse418' );
-		if ( empty( $customDenialHeader ) && empty( $customDenialText ) && $use418 ) {
+		$denyFast = $config->get( 'CrawlerProtectionUse418' );
+		if ( empty( $customDenialHeader ) && empty( $customDenialText ) && $denyFast ) {
 			$customDenialHeader = 'HTTP/1.0 I\'m a teapot';
 			$customDenialText = 'I\'m a teapot';
 		}

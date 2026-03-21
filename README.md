@@ -6,6 +6,10 @@ intensive.
 
 # Configuration
 
+* `$wgCrawlerProtectedActions` - array of actions to protect (default: `[ 'history' ]`).
+  Actions specified in this array will be denied for anonymous users.
+  Set to an empty array `[]` to disable `action=`-based restrictions for anonymous users (other checks
+  such as `type=revision`, `diff`, or `oldid` may still block requests).
 * `$wgCrawlerProtectedSpecialPages` - array of special pages to protect
   (default: `[ 'mobilediff', 'recentchangeslinked', 'whatlinkshere' ]`).
   Supported values are special page names or their aliases regardless of case.
@@ -19,8 +23,6 @@ intensive.
   `die();` with
   [418 I'm a teapot](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/418)
   code (default: `false`)
-* `$wgCrawlerProtectedActions` - add a list of actions to be denied
-  (default: `[ 'history' ]`).
 
 #  Version history
 
