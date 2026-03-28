@@ -37,7 +37,7 @@ if ( version_compare( MW_VERSION, '1.41', '<' ) ) {
 }
 
 if ( version_compare( MW_VERSION, '1.42', '<' ) ) {
-	class_alias( '\MediaWiki', '\MediaWiki\Actions\ActionEntryPoint' );
+	class_alias( '\ActionEntryPoint', '\MediaWiki\Actions\ActionEntryPoint' );
 }
 
 if ( version_compare( MW_VERSION, '1.44', '<' ) ) {
