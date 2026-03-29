@@ -15,6 +15,11 @@ use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 
 class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook {
+
+    public static function onRegistration() {
+        Compat::init();
+    }
+
 	/** @var string Prefix for special page names */
 	private const SPECIAL_PAGE_PREFIX = 'Special:';
 
