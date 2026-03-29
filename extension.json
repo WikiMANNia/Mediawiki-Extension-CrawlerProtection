@@ -8,6 +8,7 @@
 	"requires": {
 		"MediaWiki": ">= 1.35"
 	},
+	"callback": "MediaWiki\\Extension\\CrawlerProtection\\Hooks::onRegistration",
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\CrawlerProtection\\": "includes/"
 	},

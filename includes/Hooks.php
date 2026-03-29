@@ -14,28 +14,6 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MediaWiki\Title\Title;
 use MediaWiki\User\User;
 
-// Class aliases for multi-version compatibility.
-// These need to be in global scope so phan can pick up on them,
-// and before any use statements that make use of the namespaced names.
-if ( version_compare( MW_VERSION, '1.40', '<' ) ) {
-	if ( !class_exists('MediaWiki\Title\Title') )  class_alias( '\Title', '\MediaWiki\Title\Title' );
-}
-
-if ( version_compare( MW_VERSION, '1.41', '<' ) ) {
-	if ( !class_exists('MediaWiki\Output\OutputPage') )  class_alias( '\OutputPage', '\MediaWiki\Output\OutputPage' );
-	if ( !class_exists('MediaWiki\Request\WebRequest') )  class_alias( '\WebRequest', '\MediaWiki\Request\WebRequest' );
-	if ( !class_exists('MediaWiki\SpecialPage\SpecialPage') )  class_alias( '\SpecialPage', '\MediaWiki\SpecialPage\SpecialPage' );
-	if ( !class_exists('MediaWiki\User\User') )  class_alias( '\User', '\MediaWiki\User\User' );
-}
-
-if ( version_compare( MW_VERSION, '1.42', '<' ) ) {
-	if ( !class_exists('MediaWiki\Actions\ActionEntryPoint') )  class_alias( '\ActionEntryPoint', '\MediaWiki\Actions\ActionEntryPoint' );
-}
-
-if ( version_compare( MW_VERSION, '1.44', '<' ) ) {
-	if ( !class_exists('MediaWiki\Page\Article') )  class_alias( '\Article', '\MediaWiki\Page\Article' );
-}
-
 class Hooks implements MediaWikiPerformActionHook, SpecialPageBeforeExecuteHook {
 	/** @var string Prefix for special page names */
 	private const SPECIAL_PAGE_PREFIX = 'Special:';

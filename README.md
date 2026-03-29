@@ -51,6 +51,7 @@ intensive.
 
 * Add custom header and text settings for access-denial display
 
-1.6.0 (Mar 20, 2026)
+1.6.0
 
-* Add translations and link to MediaWiki
+* Add translations and link to MediaWiki (Mar 20, 2026)
+* Add Backward Compatibility with ´class_exists()´ statements ´Compat.php´ (Mar 29, 2026)
